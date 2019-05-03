@@ -20,7 +20,7 @@ Mit License
 Michael Taylor - for writing the book that I used to learn about, and create this program.
 
 ## How to modify the program to fit your needs
-
+You run the program by running the main function in the Draw class.
 Go to the Driver class. Every setting should be in the function setNeuralNetworkSettings().
 
 LayerStats (int[])
