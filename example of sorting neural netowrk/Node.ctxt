@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Node
+comment1.params=type\ layer\ layerplace\ value\ x\ y
+comment1.target=Node(int,\ int,\ int,\ double,\ int,\ int)
+comment2.params=
+comment2.target=java.lang.String\ getNodeCode()
+comment3.params=
+comment3.target=int\ getType()
+comment4.params=
+comment4.target=int\ getlayer()
+comment5.params=
+comment5.target=int\ getlayerplace()
+comment6.params=
+comment6.target=double\ getValue()
+comment7.params=value
+comment7.target=void\ setValue(double)
+comment8.params=
+comment8.target=java.util.ArrayList\ getInputWeights()
+comment9.params=
+comment9.target=void\ PrintStats()
+numComments=10
