@@ -18,7 +18,7 @@ public class Draw extends JPanel
         gameFrame.setVisible(true);
         gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
-    public static void main() {
+    public static void main(String[] args) {
         System.out.print('\u000C');
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
