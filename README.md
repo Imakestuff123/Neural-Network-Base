@@ -32,7 +32,7 @@ LayerStats (int[])
   - new int[]{# of nodes in input layer, # of nods in hidden layer1, # of nods in hidden layer2... # of nodes in output layer, determines whether bias nodes exist }
   
 LearningRate (double)
-  - Determine sthe magnitude of change when Weights update themselves
+  - Determines the magnitude of change when Weights update themselves
   
 GradientCehcking (bool)
  -If this is set to true, it will print out the relative error of weights as they update themselves
