@@ -15,6 +15,9 @@ public class Driver
     boolean StepBased;
     int NumberofTests;
     int FrameSpeed;
+    
+    int leastXDistance;
+    int leastYDistance;
     public Driver() {
         
     }
@@ -45,14 +48,26 @@ public class Driver
         TotalNodeCount = new Node[CountofNodes];
         //Creates each individual node
         CountofNodes = 0;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int xdistance = (int)((screenSize.getWidth() - 300) / (LayerStats.length - 1)); //150 borders on both sides
+        leastXDistance = xdistance;
+        int least = -1;
         for (int i = 0; i <= LayerStats.length - 2; i++) {
+            if (least == -1) least = LayerStats[i];
+            else if (LayerStats[i] < least) least = LayerStats[i];
+        }
+        leastYDistance = (int)((screenSize.getHeight() - 300) / least);
+        int ydistance; //200 from top 100 from bottem
+        for (int i = 0; i <= LayerStats.length - 2; i++) {
+            ydistance = (int)((screenSize.getHeight() - 300) / LayerStats[i]);
             for (int ii = 1; ii <= LayerStats[i]; ii++) {
+                
                 //input node
-                if (i == 0) TotalNodeCount[CountofNodes] = new Node(0, i, ii - 1, Math.random(), i * 300 + 150, (ii - 1) * (150 + 50 * (i % 2 == 0 ? 1 : 0)) + 200);
+                if (i == 0) TotalNodeCount[CountofNodes] = new Node(0, i, ii - 1, Math.random(), i * xdistance + 150, (ii - 1) * (/*150 + 50 * (i % 2 == 0 ? 1 : 0)*/ydistance) + 200);
                 //Outer node
-                if (i == LayerStats.length - 2) TotalNodeCount[CountofNodes] = new Node(2, i, ii - 1, Math.random(), i * 300 + 150, (ii - 1) * (150 + 50 * (i % 2 == 0 ? 1 : 0)) + 200);
+                if (i == LayerStats.length - 2) TotalNodeCount[CountofNodes] = new Node(2, i, ii - 1, Math.random(), i * xdistance + 150, (ii - 1) * (/*150 + 50 * (i % 2 == 0 ? 1 : 0)*/ ydistance) + 200);
                 //hidden node
-                if ((i != 0) && (i != LayerStats.length - 2)) TotalNodeCount[CountofNodes] = new Node(1, i, ii - 1, Math.random(), i * 300 + 150, (ii - 1) * (150 + 50 * (i % 2 == 0 ? 1 : 0)) + 200);
+                if ((i != 0) && (i != LayerStats.length - 2)) TotalNodeCount[CountofNodes] = new Node(1, i, ii - 1, Math.random(), i * xdistance + 150, (ii - 1) * (/*150 + 50 * (i % 2 == 0 ? 1 : 0)*/ ydistance) + 200);
                 
                 Node2DCount[i][ii - 1] = TotalNodeCount[CountofNodes];
                 
@@ -60,10 +75,12 @@ public class Driver
             }
         }
         //Creates bias nodes    
-        for (int i = 1; i <= LayerStats.length - 2; i++) {
-            TotalNodeCount[CountofNodes] = new Node(3, i - 1, -1, 1, (i - 1) * (300 + 50 * (i % 2 == 0 ? 1 : 0)) + 225, 100);
-            Node2DCountBias[i - 1] = TotalNodeCount[CountofNodes];
-            CountofNodes++;
+        if (LayerStats[LayerStats.length - 1] == 1) {
+            for (int i = 1; i <= LayerStats.length - 2; i++) {
+                TotalNodeCount[CountofNodes] = new Node(3, i - 1, -1, 1, (int)(((i - 1) * (xdistance)) + 150 + xdistance * 0.25)/*(int)((i - 1) * (xdistance + 50 * (i % 2 == 0 ? 1 : 0)) + 150)*/, 100);
+                Node2DCountBias[i - 1] = TotalNodeCount[CountofNodes];
+                CountofNodes++;
+            }
         }
         //Finding aomunt of weights
         int CountofWeights = 0;
@@ -129,15 +146,16 @@ public class Driver
             OneRun(TestingArray[(int)(place * 2)], TestingArray[(int)(place * 2 + 1)]);
         }
     }
-    public void GraphicsUpdate(Graphics g, Graphics2D g2) {
-        int NodeWidth = 80;
-        int WeightWidth = 30;
+    public void GraphicsUpdate(Graphics g, Graphics2D g2) {    
+        int Measurement = Math.min(leastXDistance, leastYDistance);
+        int NodeWidth = (int)(Measurement * 0.3); //max of each
+        int WeightWidth = (int)(NodeWidth / 3); //max of each
         //draw nodes
         for (int i = 0; i <= TotalNodeCount.length - 1 /*- (((LayerStats[LayerStats.length - 1] == 1) ? 1 : 0) * (LayerStats.length - 2))*/; i++) {
             Node CurrentNode = TotalNodeCount[i];
             g2.drawString(CurrentNode.getNodeCode(), CurrentNode.x, CurrentNode.y - NodeWidth / 2);
             g2.drawString(Double.toString(CurrentNode.getValue()), CurrentNode.x - NodeWidth / 4, CurrentNode.y);
-            g.drawOval(CurrentNode.x - NodeWidth / 2, CurrentNode.y - NodeWidth / 2, NodeWidth, NodeWidth);
+            g.drawOval(CurrentNode.x - NodeWidth / 2, CurrentNode.y - NodeWidth / 2, (int)(NodeWidth * 0.25 * (CurrentNode.getValue()) + (NodeWidth * 0.75)), (int)(NodeWidth * 0.25 * (CurrentNode.getValue()) + (NodeWidth * 0.75)));
         }
         //Drawing weights
         for (int i = 0; i <= TotalWeightCount.length - 1; i++) {
@@ -286,7 +304,7 @@ public class Driver
         ForwardPropagation();
         //System.out.println("Total Error: " + Double.toString(getTotalError()));
         setOutputLayerWeightGradients();
-        setOutputLayerWeightBiasGradients();
+        if (LayerStats[LayerStats.length - 1] == 1)setOutputLayerWeightBiasGradients();
         //System.out.println(Equations.CalculateHiddenLayerWeightGradient((FindWeight("0#0"))));
         setAllHiddenLayerWeightGradients();
         if (GradientChecking == true) DisplayCalculatedRelativeError();
