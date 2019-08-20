@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Weight
+comment1.params=Target\ Parent\ type\ layer\ layerplace\ value\ x\ y
+comment1.target=Weight(Node,\ Node,\ int,\ int,\ int,\ double,\ int,\ int)
+comment2.params=
+comment2.target=java.lang.String\ getWeightCode()
+comment3.params=
+comment3.target=Node\ getTarget()
+comment4.params=
+comment4.target=Node\ getParent()
+comment5.params=
+comment5.target=int\ getlayer()
+comment6.params=
+comment6.target=int\ getlayerplace()
+comment7.params=
+comment7.target=double\ getValue()
+comment8.params=
+comment8.target=int\ getType()
+comment9.params=value
+comment9.target=void\ setValue(double)
+numComments=10

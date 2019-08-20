@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Draw
+comment1.params=gameFrame
+comment1.target=Draw(javax.swing.JFrame)
+comment2.params=gameFrame
+comment2.target=void\ CreateWindow(javax.swing.JFrame)
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+comment4.params=
+comment4.target=void\ run()
+comment5.params=
+comment5.target=void\ run()
+comment6.params=
+comment6.target=void\ gameLoop()
+comment7.params=g
+comment7.target=void\ paintComponent(java.awt.Graphics)
+numComments=8
