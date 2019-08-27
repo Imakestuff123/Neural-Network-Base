@@ -1,4 +1,4 @@
-            public class Equations
+public class Equations
 {   
    public static double round(double precision, double number) {
        //precision = 1000d
@@ -31,9 +31,11 @@
            Object CurrentWeight = NodeSelected.InputWeights.get(i);
            total += ((Weight)CurrentWeight).getValue() * ((Weight)CurrentWeight).getParent().getValue();
        }
+       //total /= NodeSelected.InputWeights.size();
+       //System.out.println(total);
        return total;
    }
-   public static double ActivationFunction(double xInput) {
+   public static double SigmoidActivationFunction(double xInput) {
        //f(x) = 1 / (1 + e^(-x))
        return (1 / (1 + Math.pow(Math.E, -xInput)));
    }
@@ -107,7 +109,7 @@
                    else WeightValue = CurrentWeight.getValue();
                    temptotal += WeightValue * (CurrentWeight.getParent().getValue());
                }
-               NodeValues[i] = ActivationFunction(temptotal);
+               NodeValues[i] = SigmoidActivationFunction(temptotal);
            }
        }
        /*for (int i = 0; i <= NodeValues.length - 1; i++) {
@@ -144,7 +146,7 @@
                    else WeightValue = CurrentWeight.getValue();
                    temptotal += WeightValue * (CurrentWeight.getParent().getValue());
                }
-               NodeValues[i] = ActivationFunction(temptotal);
+               NodeValues[i] = SigmoidActivationFunction(temptotal);
            }
        }
        temptotal = 0;
@@ -163,10 +165,11 @@
        double Difference = Wi.CurrentGradient - FinalNumericalApproximation;
        double RelativeError = (FirstError - SecondError) / Math.max(FirstError, SecondError);
        //System.out.println(Difference);
+       
        return RelativeError;    
    }
    public static void UpdateGeneralWeightFormula(Weight Weight, double LearningRate) {
-       Weight.setValue(Weight.getValue() - LearningRate * Weight.CurrentGradient);
+       Weight.setValue(Weight.getValue() - (LearningRate * Weight.CurrentGradient));
    }
  
 }
